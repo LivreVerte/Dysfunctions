@@ -1,0 +1,5 @@
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="b3029afd-dba7-3302-9c78-8f598daa8218")}catch(e){}}();
+define(["exports"],(function(e){"use strict";class t{constructor(e=(()=>{})){this._mapper=e}static getInstance(){return t._instance||(t._instance=new t),t._instance}static reset(){t._instance=new t}setMapper(e){this._mapper=e}resolve(){let e="";try{e=this._mapper(window.location)}catch(e){}return e||""}}t._instance=null;const s=t.getInstance();const n=["basic","plus","professional","family","business","one","simple","essentials","base_fss"];e.GetGrowthRoutes=function(e){return e.ns("growth")},e.GetSecuritySettingsRoutes=function(e){return e.ns("security_settings")},e.getCurrentPlanFromString=function(e){return n.find((t=>t===(null==e?void 0:e.toLowerCase())))},e.resolveRouteName=()=>s.resolve(),e.setRouteNameMapper=e=>{s.setMapper(e)}}));
+//# sourceMappingURL=c_pap-events_enums_current_plan-utils.js-vflWMmzw0.map
+
+//# debugId=b3029afd-dba7-3302-9c78-8f598daa8218

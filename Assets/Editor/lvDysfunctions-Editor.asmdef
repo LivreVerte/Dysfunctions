@@ -1,0 +1,10 @@
+{
+  "name": "lvDysfunctions-Editor",
+  "references": [
+    "lvDysfunctions"
+  ],
+  "includePlatforms": [
+    "Editor"
+  ],
+  "excludePlatforms": []
+}

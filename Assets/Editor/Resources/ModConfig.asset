@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 615501dbe4f3fe94fbf4b564abb10237, type: 3}
+  m_Name: ModConfig
+  m_EditorClassIdentifier: 
+  id: lvDysfunctions
+  title: Dysfunctions
+  author: LivreVerte
+  description: "\"How do you get 23 from 1 and 2. Wait, don't worry it's 3 now.\"
+    \nQuery inputs into the base 6 module to determine the base 6 function and metafunction
+    while restrictions limit your query options. \nA module inspired by Functions
+    and Malfunctions by JerryEris in both the basic premise and name. \nManual is
+    located in ktane.timwi.de or the manuals folder in your game. \nThis is a first
+    module attempt, and while I am happy with where it is, I recognize that there
+    will be bugs. Contact LivreVerte on Discord for concerns or bugs. "
+  version: 
+  outputFolder: build
+  debugBuild: 1
+  previewImage: {fileID: 2800000, guid: ef61e3cd2050a214b9f0408f408790f4, type: 3}

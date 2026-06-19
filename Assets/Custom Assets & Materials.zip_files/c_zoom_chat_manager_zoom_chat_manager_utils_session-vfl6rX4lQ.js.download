@@ -1,0 +1,5 @@
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="7c0c4290-7bfc-3fdf-895a-6576c0981499")}catch(e){}}();
+define(["exports","./e_file_viewer_static_scl_page_file"],(function(e,_){"use strict";function t(){const e=window;if(e._DBX_ZOOM_CHAT_CLIENT&&"function"==typeof e._DBX_ZOOM_CHAT_CLIENT.handleOnLogoutCallback){const t=_.getCookieValue(_.UNIFIED_CHAT_COOKIE_NAME);_.deleteUnifiedChatCookie(_.UNIFIED_CHAT_COOKIE_NAME,_.DBX_CHAT_WILDCARD_DOMAIN),e._DBX_ZOOM_CHAT_CLIENT.handleOnLogoutCallback(),t===_.SALES_CHAT_COOKIE_KEY&&_.createLoginCookieForDbxSalesChat()}}e.executeUnifiedChatLogoutCallback=t,e.updateChatStateToSwitchedAccount=function(){if(document.cookie.includes(_.UNIFIED_CHAT_COOKIE_NAME)){t();const e=document.getElementById(_.UNIFIED_CHAT_IFRAME_ID);e&&(e.style.display="none")}}}));
+//# sourceMappingURL=c_zoom_chat_manager_zoom_chat_manager_utils_session.js-vflLTxmZq.map
+
+//# debugId=7c0c4290-7bfc-3fdf-895a-6576c0981499
