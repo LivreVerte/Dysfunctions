@@ -808,6 +808,9 @@ public class DysfunctionsScript : MonoBehaviour {
         return encode(a);
     }
     public static int[] fun24(int[] num1, int[] num2){
+        if ((decode(num1) == 0) || (decode(num2) == 0)){
+            return encode(0);
+        }
         return encode(((int)decode(num1)*(int)decode(num2))/(int)decode(fun23(num1,num2)));
     }
     public static int[] fun25(int[] num1, int[] num2){
@@ -868,6 +871,9 @@ public class DysfunctionsScript : MonoBehaviour {
             f = b;
             b = a;
             a = f;
+        }
+        if(b == 0){
+            return a;
         }
         return encode(a%b);
     }
@@ -940,7 +946,7 @@ public class DysfunctionsScript : MonoBehaviour {
         int a = (int)decode(num1);
         int b = (int)decode(num1);
         if (a == 0){
-            return encode(0);
+            return encode((long)(b*b));
         }
         return encode((int)((a-b)*(a-b)/a));
     }
