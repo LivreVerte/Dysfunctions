@@ -23,26 +23,25 @@ public class DysfunctionsScript : MonoBehaviour {
 	private int factor1;
 	private bool initialized = false;
 
-    private static int[] array1 = {0, 0, 0, 0, 0};
-    private static int[] array2 = {0, 0, 0, 0, 0};
-    private static int[] submission = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-    private static int arg = 1;
-    private static int current = 0;
-    private static int meta = 0;
-    private static int[] response = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-    private static bool reston = false;
-    private static int arguement = 0;
-    private static int[] second = {0, 0, 0, 0, 0};
-    private static int num11 = 0;
-    private static int num12 = 0;
-    private static int restriction;
-    private static bool rest1 = false;
-    private static bool rest2 = false;
-    private static int sign = 0;
-    private static int[] ans1 = {0, 0, 0, 0};
-    private static int[] ans2 = {0, 0, 0, 0};
-    private static bool stop = false;
-    private static int usableID;
+    private int[] array1 = {0, 0, 0, 0, 0};
+    private int[] array2 = {0, 0, 0, 0, 0};
+    private int[] submission = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+    private int arg = 1;
+    private int current = 0;
+    private int meta = 0;
+    private int[] response = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+    private bool reston = false;
+    private int arguement = 0;
+    private int[] second = {0, 0, 0, 0, 0};
+    private int num11 = 0;
+    private int num12 = 0;
+    private int restriction;
+    private bool rest1 = false;
+    private bool rest2 = false;
+    private int sign = 0;
+    private int[] ans1 = {0, 0, 0, 0};
+    private int[] ans2 = {0, 0, 0, 0};
+    private bool stop = false;
 
 	public KMSelectable[] buttons;
 
@@ -52,7 +51,6 @@ public class DysfunctionsScript : MonoBehaviour {
         }
 		if(!initialized){
             moduleID = moduleIdCounter++;
-            usableID = moduleID;
 		restriction = UnityEngine.Random.Range(2,36);
         arguement = UnityEngine.Random.Range(0, 2);
         current = UnityEngine.Random.Range(0, 36);
@@ -82,24 +80,26 @@ public class DysfunctionsScript : MonoBehaviour {
         sign = UnityEngine.Random.Range(0,2);
         if (sign == 0){
             startingDisplay[1].text = "-";
+            Debug.LogFormat("[Dysfunctions #{0}] The digit restriction is -",moduleID);
         } else {
             startingDisplay[1].text = "+";
+            Debug.LogFormat("[Dysfunctions #{0}] The digit restriction is +",moduleID);
         }
         startingDisplay[1].text = startingDisplay[1].text + ((int)restriction/6)+(restriction%6);
         //UnityEngine.Debug.Log("Restriction: "+restriction);
         //Debug.LogFormat("[Bamboozled Again #{0}] After {2} presses, the correct button to press is the {1} button", moduleID, location[answerKey[0][pressCount]], pressCount);
-        Debug.LogFormat("[Dysfunctions #{0}] Restriction: {1}{2}", moduleID,((int)restriction/6),restriction%6);
+        Debug.LogFormat("[Dysfunctions #{0}] Divisible restriction: {1}{2}", moduleID,((int)restriction/6),restriction%6);
+        //UnityEngine.Debug.Log("MetaFunction: " + ((int)(meta/6))+meta%6);
+        Debug.LogFormat("[Dysfunctions #{0}] Metafunction: {1}{2}. ",moduleID,((int)(meta/6)),meta%6);
         if(arguement == 0){
             //UnityEngine.Debug.Log("Arguement 1");
-            Debug.LogFormat("[Dysfunctions #{0}] Restriction: Arguement 1. ",moduleID);
+            Debug.LogFormat("[Dysfunctions #{0}] The metafunction uses factor 1 as its second input.",moduleID);
         } else {
             //UnityEngine.Debug.Log("Arguement 2");
-            Debug.LogFormat("[Dysfunctions #{0}] Restriction: Arguement 2. ",moduleID);
+            Debug.LogFormat("[Dysfunctions #{0}] The metafunction uses factor 2 as its second input",moduleID);
         }
-        //UnityEngine.Debug.Log("MetaFunction: " + ((int)(meta/6))+meta%6);
-        Debug.LogFormat("[Dysfunctions #{0}] MetaFunction: {1}{2}. ",moduleID,((int)(meta/6)),meta%6);
         //UnityEngine.Debug.Log("Current: " + ((int)(current/6))+(current%6));
-        Debug.LogFormat("[Dysfunctions #{0}] Current: {1}{2}. ",moduleID,((int)(current/6)),current%6);
+        Debug.LogFormat("[Dysfunctions #{0}] Starting function: {1}{2}. ",moduleID,((int)(current/6)),current%6);
         //UnityEngine.Debug.Log("The first factor is " + ans1[3]+ans1[2]+ans1[1]+ans1[0]);
         Debug.LogFormat("[Dysfunctions #{0}] The first factor is {1}{2}{3}{4}. ",moduleID,ans1[3],ans1[2],ans1[1],ans1[0]);
         //UnityEngine.Debug.Log("The second factor is " + ans2[3]+ans2[2]+ans2[1]+ans2[0]);
@@ -179,13 +179,51 @@ public class DysfunctionsScript : MonoBehaviour {
                 //UnityEngine.Debug.Log("You queried: " + array1[4]+array1[3]+array1[2]+array1[1]+array1[0]+" and "+ array2[4]+array2[3]+array2[2]+array2[1]+array2[0]);
                 Debug.LogFormat("[Dysfunctions #{0}] You queried: {1}{2}{3}{4}{5} and {6}{7}{8}{9}{10}. ",moduleID,array1[4],array1[3],array1[2],array1[1],array1[0],array2[4],array2[3],array2[2],array2[1],array2[0]);
                 queryDisplays[2].text = "";
-                if (reston && (checkConditions(array1, array2) == false)){
+                if(reston){
+                //UnityEngine.Debug.Log("Checking restrictions");
+                Debug.LogFormat("[Dysfunctions #{0}] Checking restrictions: ",moduleID);
+                if(array1[2] != num11*2 && array1[2] != (num11*2+1)){
+                    Debug.LogFormat("[Dysfunctions #{0}] Input 1 invalid by +-.",moduleID);
+                    //UnityEngine.Debug.Log("Input 1 invalid by +-");
+                    reston = false;
                     GetComponent<KMBombModule>().HandleStrike();
                     arg = 0;
                     GetComponent<KMAudio>().PlaySoundAtTransform("DysTrike", transform);
                     reston = false;
                     return;
                 }
+                if(array2[2] != num12*2 && array2[2] != (num12*2+1)){
+                    Debug.LogFormat("[Dysfunctions #{0}] Input 2 invalid by +-.",moduleID);
+                    //UnityEngine.Debug.Log("Input 2 invalid by +-");
+                    reston = false;
+                    GetComponent<KMBombModule>().HandleStrike();
+                    arg = 0;
+                    GetComponent<KMAudio>().PlaySoundAtTransform("DysTrike", transform);
+                    reston = false;
+                    return;
+                }
+                if(rest1 == ((int)decode(array1)%restriction == 0)){
+                    Debug.LogFormat("[Dysfunctions #{0}] Input 1 invalid by factors.",moduleID);
+                    //UnityEngine.Debug.Log("Input 1 invalid by Factors");
+                    reston = false;
+                    GetComponent<KMBombModule>().HandleStrike();
+                    arg = 0;
+                    GetComponent<KMAudio>().PlaySoundAtTransform("DysTrike", transform);
+                    reston = false;
+                    return;
+                }
+                if(rest2 == ((int)decode(array2)%restriction ==0)){
+                    Debug.LogFormat("[Dysfunctions #{0}] Input 2 invalid by factors.",moduleID);
+                    //UnityEngine.Debug.Log("Input 2 invalid by Factors");
+                    reston = false;
+                    GetComponent<KMBombModule>().HandleStrike();
+                    arg = 0;
+                    GetComponent<KMAudio>().PlaySoundAtTransform("DysTrike", transform);
+                    reston = false;
+                    return;
+                }
+                }
+                Debug.LogFormat("[Dysfunctions #{0}] Conditions passed. ",moduleID);
                 for(int i = usefullen(array2); i >= 0; i--){
                     if(array2[i] == 0){
                         GetComponent<KMAudio>().PlaySoundAtTransform("Dys0", transform);
@@ -213,20 +251,73 @@ public class DysfunctionsScript : MonoBehaviour {
                 Debug.LogFormat("[Dysfunctions #{0}] Query Result: {1}{2}{3}{4}{5}{6}{7}{8}{9}{10}",moduleID,response[9],response[8],response[7],response[6],response[5],response[4],response[3],response[2],response[1],response[0]);
                 //unityengine.debug.Log("New Function: " + ((int)(current/6))+(current%6));
                 Debug.LogFormat("[Dysfunctions #{0}] New Function: {1}{2}. ", moduleID, ((int)(current/6)),current%6);
-                resetConditions(array1, array2);
-                reston = true;
-                arg = 0;
+                rest1 = (int)decode(array1)%restriction == 0;
+                rest2 = (int)decode(array2)%restriction == 0;
+                num11 = (int)(array1[2]/2);
+                num12 = (int)(array2[2]/2);
+                if (sign == 0){
+                    num11 = (num11-1)%3;
+                    num12 = (num12-1)%3;
+                    if (num11 == -1){
+                     num11 = 2;
+                    }
+                if (num12 == -1){
+                        num12 = 2;
+                    }
+                } else {
+                    num11 = (num11+1)%3;
+                    num12 = (num12+1)%3;
+                }
+            reston = true;
+            arg = 0;
             }
             display = false;
         } else if (button.GetComponentInChildren<TextMesh>().text == "S"){
             display = false;
             if(arg == 1 || arg == 2){
-                if(reston &&(checkConditions(ans1, ans2) == false)){
+                //UnityEngine.Debug.Log("Checking restrictions");
+                if (reston){
+                    Debug.LogFormat("[Dysfunctions #{0}] Checking restrictions: ",moduleID);
+                if(ans1[2] != num11*2 && ans1[2] != (num11*2+1)){
+                    Debug.LogFormat("[Dysfunctions #{0}] Input 1 invalid by +-.",moduleID);
+                    //UnityEngine.Debug.Log("Input 1 invalid by +-");
+                    reston = false;
                     GetComponent<KMBombModule>().HandleStrike();
-                    GetComponent<KMAudio>().PlaySoundAtTransform("DysTrike", transform);
                     arg = 0;
+                    GetComponent<KMAudio>().PlaySoundAtTransform("DysTrike", transform);
                     reston = false;
                     return;
+                }
+                if(ans2[2] != num12*2 && ans2[2] != (num12*2+1)){
+                    Debug.LogFormat("[Dysfunctions #{0}] Input 2 invalid by +-.",moduleID);
+                    //UnityEngine.Debug.Log("Input 2 invalid by +-");
+                    reston = false;
+                    GetComponent<KMBombModule>().HandleStrike();
+                    arg = 0;
+                    GetComponent<KMAudio>().PlaySoundAtTransform("DysTrike", transform);
+                    reston = false;
+                    return;
+                }
+                if(rest1 == ((int)decode(ans1)%restriction == 0)){
+                    Debug.LogFormat("[Dysfunctions #{0}] Input 1 invalid by factors.",moduleID);
+                    //UnityEngine.Debug.Log("Input 1 invalid by Factors");
+                    reston = false;
+                    GetComponent<KMBombModule>().HandleStrike();
+                    arg = 0;
+                    GetComponent<KMAudio>().PlaySoundAtTransform("DysTrike", transform);
+                    reston = false;
+                    return;
+                }
+                if(rest2 == ((int)decode(ans2)%restriction ==0)){
+                    Debug.LogFormat("[Dysfunctions #{0}] Input 2 invalid by factors.",moduleID);
+                    //UnityEngine.Debug.Log("Input 2 invalid by Factors");
+                    reston = false;
+                    GetComponent<KMBombModule>().HandleStrike();
+                    arg = 0;
+                    GetComponent<KMAudio>().PlaySoundAtTransform("DysTrike", transform);
+                    reston = false;
+                    return;
+                }
                 }
                 //unityengine.debug.Log("Submission Detected. Restrictions are either satisfied or do not apply. Proceed");
                 Debug.LogFormat("[Dysfunctions #{0}] Submission Detected. Restrictions are either satisfied or do not apply. Proceed. ",moduleID);
@@ -276,7 +367,18 @@ public class DysfunctionsScript : MonoBehaviour {
             }
         stop = true;
         yield return new WaitForSeconds(2);
-        bool leave = finalSubmission();
+        bool leave = true;
+        int answer = (int)(decode(funSorting(current, ans1, ans2)))+36*meta+current;
+        int[] logging = encode(answer);
+        //unityengine.debug.Log("The final answer is: " + logging[9]+logging[8]+logging[7]+logging[6]+logging[5]+logging[4]+logging[3]+logging[2]+logging[1]+logging[0]);
+        Debug.LogFormat("[Dysfunctions #{0}] The final answer is: {1}{2}{3}{4}{5}{6}{7}{8}{9}{10}",moduleID,logging[9],logging[8],logging[7],logging[6],logging[5],logging[4],logging[3],logging[2],logging[1],logging[0]);
+        //UnityEngine.Debug.Log("You Submitted: " + submission[9]+ submission[8]+ submission[7]+ submission[6]+ submission[5]+ submission[4]+ submission[3]+ submission[2]+ submission[1]+ submission[0]);
+        Debug.LogFormat("[Dysfunctions #{0}] Your answer is: {1}{2}{3}{4}{5}{6}{7}{8}{9}{10}",moduleID,submission[9],submission[8],submission[7],submission[6],submission[5],submission[4],submission[3],submission[2],submission[1],submission[0]);
+        if((int)(decode(submission)) == answer){
+            leave = true;
+        } else {
+            leave = false;
+        }
         if(leave){
             foreach(TextMesh text in queryDisplays){
                 text.text = "";
@@ -417,68 +519,6 @@ public class DysfunctionsScript : MonoBehaviour {
             }
             Start();
         }
-    }
-    public static bool finalSubmission(){
-        int answer = (int)(decode(funSorting(current, ans1, ans2)))+36*meta+current;
-        int[] logging = encode(answer);
-        //unityengine.debug.Log("The final answer is: " + logging[9]+logging[8]+logging[7]+logging[6]+logging[5]+logging[4]+logging[3]+logging[2]+logging[1]+logging[0]);
-        Debug.LogFormat("[Dysfunctions #{0}] The final answer is: {1}{2}{3}{4}{5}{6}{7}{8}{9}{10}",usableID,logging[9],logging[8],logging[7],logging[6],logging[5],logging[4],logging[3],logging[2],logging[1],logging[0]);
-        //UnityEngine.Debug.Log("You Submitted: " + submission[9]+ submission[8]+ submission[7]+ submission[6]+ submission[5]+ submission[4]+ submission[3]+ submission[2]+ submission[1]+ submission[0]);
-        Debug.LogFormat("[Dysfunctions #{0}] The final answer is: {1}{2}{3}{4}{5}{6}{7}{8}{9}{10}",usableID,submission[9],submission[8],submission[7],submission[6],submission[5],submission[4],submission[3],submission[2],submission[1],submission[0]);
-        if((int)(decode(submission)) == answer){
-            return true;
-        } else {
-            return false;
-        }
-    }
-    public static void resetConditions(int[] fact1, int[] fact2){
-        rest1 = (int)decode(array1)%restriction == 0;
-        rest2 = (int)decode(array2)%restriction == 0;
-        num11 = (int)(array1[2]/2);
-        num12 = (int)(array2[2]/2);
-        if (sign == 0){
-            num11 = (num11-1)%3;
-            num12 = (num12-1)%3;
-            if (num11 == -1){
-                num11 = 2;
-            }
-            if (num12 == -1){
-                num12 = 2;
-            }
-        } else {
-            num11 = (num11+1)%3;
-            num12 = (num12+1)%3;
-        }
-    }
-    public static bool checkConditions(int[] fact1, int[] fact2){
-        //UnityEngine.Debug.Log("Checking restrictions");
-        Debug.LogFormat("[Dysfunctions #{0}] Checking restrictions: ",usableID);
-        if(fact1[2] != num11*2 && fact1[2] != (num11*2+1)){
-            Debug.LogFormat("[Dysfunctions #{0}] Input 1 invalid by +-.",usableID);
-            //UnityEngine.Debug.Log("Input 1 invalid by +-");
-            reston = false;
-            return false;
-        }
-        if(fact2[2] != num12*2 && fact2[2] != (num12*2+1)){
-            Debug.LogFormat("[Dysfunctions #{0}] Input 2 invalid by +-.",usableID);
-            //UnityEngine.Debug.Log("Input 2 invalid by +-");
-            reston = false;
-            return false;
-        }
-        if(rest1 == ((int)decode(fact1)%restriction == 0)){
-            Debug.LogFormat("[Dysfunctions #{0}] Input 1 invalid by factors.",usableID);
-            //UnityEngine.Debug.Log("Input 1 invalid by Factors");
-            reston = false;
-            return false;
-        }
-        if(rest2 == ((int)decode(fact2)%restriction ==0)){
-            Debug.LogFormat("[Dysfunctions #{0}] Input 2 invalid by factors.",usableID);
-            //UnityEngine.Debug.Log("Input 2 invalid by Factors");
-            reston = false;
-            return false;
-        }
-        Debug.LogFormat("[Dysfunctions #{0}] Conditions passed. ",usableID);
-        return true;
     }
     public static int[] updateArray(int[] arr, int novel){
         for(int n = arr.Length-1; n > 0; n--){
@@ -702,23 +742,23 @@ public class DysfunctionsScript : MonoBehaviour {
         int len1 = usefullen(num1);
         int len2 = usefullen(num2);
         int n1 = len1;
-        int n2 = len2;
-        while(n1 != -1 && n2 != -1){
+        int n2 = 0;
+        while(n1 != -1 && n2 != (len2+1)){
             output = updateArray(output, Math.Abs(num1[n1]-num2[n2]));
-            n2--;
+            n2++;
             n1--;
         }
-        if (n1 == -1 && n2 == -1){
-        } else if (n1 <= 0 && n2 <=0){
+        if (n1 == -1 && n2 == (len2+1)){
+        } else if (n1 <= 0 && n2 >=(len2)){
             output = updateArray(output,0);
         }else if(n1 == -1){
-            n1 = 0;
-            while(n1<=n2){
+            n1 = len2;
+            while(n1>=n2){
                 output = updateArray(output, Math.Abs(num2[n1]-num2[n2]));
-                n1++;
-                n2--;
+                n1--;
+                n2++;
             }
-        } else if (n2 == -1){
+        } else if (n2 == len2+1){
             n2 = 0;
             while(n2<=n1){
                 output = updateArray(output, Math.Abs(num1[n1]-num1[n2]));
@@ -734,9 +774,9 @@ public class DysfunctionsScript : MonoBehaviour {
     public static int[] fun21(int[] num1, int[] num2){
         int a = (int)decode(num1)%18;
         int b = (int)decode(num2)%18;
-        int c = 1;
-        int d = 1;
-        int e = 1;
+        long c = 1;
+        long d = 1;
+        long e = 1;
         int f = 0;
         if (b>a){
             f = b;
@@ -763,7 +803,7 @@ public class DysfunctionsScript : MonoBehaviour {
             if(num1[n] == 0){
                 result +=8;
             } else if (num1[n] == 1){
-                result +=3;
+                result +=2;
             } else if (num1[n] == 2){
                 result +=6;
             } else if (num1[n] == 3){
@@ -873,7 +913,7 @@ public class DysfunctionsScript : MonoBehaviour {
             a = f;
         }
         if(b == 0){
-            return a;
+            return encode(a);
         }
         return encode(a%b);
     }
@@ -944,7 +984,7 @@ public class DysfunctionsScript : MonoBehaviour {
     }
     public static int[] fun42(int[] num1, int[] num2){
         int a = (int)decode(num1);
-        int b = (int)decode(num1);
+        int b = (int)decode(num2);
         if (a == 0){
             return encode((long)(b*b));
         }
@@ -1273,7 +1313,7 @@ public class DysfunctionsScript : MonoBehaviour {
             buttons[6].OnInteract();
         }
     }
-    IEnumerator TwitchHandleForcedSolve () { //Note: The way that this solver works 
+    IEnumerator TwitchHandleForcedSolve () { //Note: The way that this solver works is that it disables the restrictions to submit. 
         yield return null;
         reston = false;
         buttons[7].OnInteract();
