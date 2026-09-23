@@ -333,7 +333,7 @@ public class DysfunctionsScript : MonoBehaviour {
                 arg = 3;
             } else if(arg == 3){
                 GetComponent<KMAudio>().PlaySoundAtTransform("DysSus", transform);
-                StartCoroutine(Delay(2));
+                StartCoroutine(Delay());
             }
         }
         if (display){
@@ -358,7 +358,7 @@ public class DysfunctionsScript : MonoBehaviour {
             }
         } 
 	}
-    IEnumerator Delay(int i){
+    IEnumerator Delay(){
         foreach(Renderer tube in neon){
             tube.material = neonOptions[1];
         }
@@ -473,7 +473,7 @@ public class DysfunctionsScript : MonoBehaviour {
             startingDisplay[1].text = "G";
             yield return new WaitForSeconds(0.5f);
             startingDisplay[1].text = "GG";
-            yield return "solve";
+            moduleSolved = true;
             foreach(TextMesh text in buttonDisplays){
                 text.color = fontColor[3];
             }
@@ -1046,7 +1046,7 @@ public class DysfunctionsScript : MonoBehaviour {
         return (encode(result));
     }
     public static int[] fun45(int[] num1, int[] num2){
-        return (encode(Math.Abs(decode(num1)-decode(num2))/2));
+        return (encode((int)Math.Abs(decode(num1)-decode(num2))/2));
     }
     public static int[] fun50(int[] num1, int[] num2){
         int[] array1 = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
