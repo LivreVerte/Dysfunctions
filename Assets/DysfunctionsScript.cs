@@ -152,6 +152,9 @@ public class DysfunctionsScript : MonoBehaviour {
         } else if (button.GetComponentInChildren<TextMesh>().text == ","){
             if(arg == 1){
                 queryDisplays[0].text = queryDisplays[2].text;
+                if(queryDisplays[2].text == ""){
+                    queryDisplays[0].text = "0";
+                }
                 queryDisplays[2].text = "";
                 arg = 2;
                 for(int i = usefullen(array1); i >= 0; i--){
@@ -176,6 +179,9 @@ public class DysfunctionsScript : MonoBehaviour {
             if(arg == 2){
                 queryDisplays[1].text = queryDisplays[2].text;
                 response = funSorting(current, array1, array2);
+                if(queryDisplays[2].text == ""){
+                    queryDisplays[1].text = "0";
+                }
                 //UnityEngine.Debug.Log("You queried: " + array1[4]+array1[3]+array1[2]+array1[1]+array1[0]+" and "+ array2[4]+array2[3]+array2[2]+array2[1]+array2[0]);
                 Debug.LogFormat("[Dysfunctions #{0}] You queried: {1}{2}{3}{4}{5} and {6}{7}{8}{9}{10}. ",moduleID,array1[4],array1[3],array1[2],array1[1],array1[0],array2[4],array2[3],array2[2],array2[1],array2[0]);
                 queryDisplays[2].text = "";
@@ -244,7 +250,7 @@ public class DysfunctionsScript : MonoBehaviour {
                 } else {
                     second = array2;
                 }
-                current = ((int)decode(funSorting(meta, response, second))+current)%36;
+                current = (int)(((long)(decode(funSorting(meta, response, second))+current))%36);
                 for(int i = usefullen(response); i>=0; i--){
 		        	queryDisplays[2].text = queryDisplays[2].text + response[i];
 		        }
@@ -467,7 +473,7 @@ public class DysfunctionsScript : MonoBehaviour {
             startingDisplay[1].text = "G";
             yield return new WaitForSeconds(0.5f);
             startingDisplay[1].text = "GG";
-            moduleSolved = true;
+            yield return "solve";
             foreach(TextMesh text in buttonDisplays){
                 text.color = fontColor[3];
             }
@@ -534,13 +540,13 @@ public class DysfunctionsScript : MonoBehaviour {
                 break;
             }
             int n=0;
-            while((int)Math.Pow(6, n+1)<=result){
+            while((long)Math.Pow(6, n+1)<=result){
                 n++;
             }
             if (n <= array.Length-1){
                 array[n] = array[n]+1;
             }
-            result = result-(int)Math.Pow(6, n);
+            result = result-(long)Math.Pow(6, n);
         }
         return array;
     }
@@ -562,9 +568,9 @@ public class DysfunctionsScript : MonoBehaviour {
         return n;
     }
     public static long decode(int[] arr){
-        int result = 0;
+        long result = 0;
         for (int n = arr.Length-1; n>=0; n--){
-            result = result+arr[n]*(int)Math.Pow(6,n);
+            result = result+arr[n]*(long)Math.Pow(6,n);
         }
         return result;
     }
@@ -655,12 +661,10 @@ public class DysfunctionsScript : MonoBehaviour {
         return output;
     }
     public static int[] fun03(int[] num1, int[] num2){
-        int[] result = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-        result = encode((int)decode(num1)^(int)decode(num2));
-        return result;
+        return encode((int)decode(num1)^(int)decode(num2));
     }
     public static int[] fun04(int[] num1, int[] num2){
-        return encode((int)Math.Sqrt(((int)(Math.Pow(decode(num1), 2))+(int)(Math.Pow(decode(num2), 2))))%60466176);
+        return encode((int)Math.Sqrt(((int)(Math.Pow(decode(num1), 2))+(int)(Math.Pow(decode(num2), 2)))));
     }
     public static int[] fun05(int[] num1, int[] num2){
         return encode((int)decode(num1)+(int)decode(num2));
@@ -818,7 +822,7 @@ public class DysfunctionsScript : MonoBehaviour {
             if(num2[n] == 0){
                 result +=8;
             } else if (num2[n] == 1){
-                result +=3;
+                result +=2;
             } else if (num2[n] == 2){
                 result +=6;
             } else if (num2[n] == 3){
@@ -832,9 +836,9 @@ public class DysfunctionsScript : MonoBehaviour {
         return (encode(result));
     }
     public static int[] fun23(int[] num1, int[] num2){
-        int a = (int)decode(num1);
-        int b = (int)decode(num2);
-        int f = 0;
+        long a = decode(num1);
+        long b = decode(num2);
+        long f = 0;
         if (b>a){
             f = b;
             b = a;
@@ -851,10 +855,10 @@ public class DysfunctionsScript : MonoBehaviour {
         if ((decode(num1) == 0) || (decode(num2) == 0)){
             return encode(0);
         }
-        return encode(((int)decode(num1)*(int)decode(num2))/(int)decode(fun23(num1,num2)));
+        return encode((decode(num1)*decode(num2))/decode(fun23(num1,num2)));
     }
     public static int[] fun25(int[] num1, int[] num2){
-        return encode((int)((int)decode(num1)+(int)decode(num2))/2);
+        return encode((decode(num1)+decode(num2))/2);
     }
     public static int[] fun30(int[] num1, int[] num2){
         int len1 = usefullen(num1);
@@ -918,9 +922,9 @@ public class DysfunctionsScript : MonoBehaviour {
         return encode(a%b);
     }
     public static int[] fun32(int[] num1, int[] num2){
-        int a = (int)decode(num1);
-        int b = (int)decode(num2);
-        return encode(Math.Abs(a*(a+1)/2-b*(b+1)/2));
+        double a = decode(num1);
+        double b = decode(num2);
+        return encode(((long)(Math.Abs(a*(a+1)/2-b*(b+1)/2))));
     }
     public static int[] fun33(int[] num1, int[] num2){
         int a = (int)decode(num1);
@@ -983,12 +987,12 @@ public class DysfunctionsScript : MonoBehaviour {
         return encode((int)c);
     }
     public static int[] fun42(int[] num1, int[] num2){
-        int a = (int)decode(num1);
-        int b = (int)decode(num2);
+        long a = decode(num1);
+        long b = decode(num2);
         if (a == 0){
-            return encode((long)(b*b));
+            return encode((b*b));
         }
-        return encode((int)((a-b)*(a-b)/a));
+        return encode((long)((a-b)*(a-b)/a));
     }
     public static int[] fun43(int[] num1, int[] num2){
         int len1 = usefullen(num1);
@@ -1010,20 +1014,20 @@ public class DysfunctionsScript : MonoBehaviour {
         return sorted;
     }
     public static int[] fun44(int[] num1, int[] num2){
-        int a = (int)decode(num1);
-        int b = (int)decode(num2);
+        long a = decode(num1);
+        long b = decode(num2);
         if (a == 0){
             a = 1;
         }
         if (b == 0){
             b = 1;
         }
-        int result = 0;
+        long result = 0;
         while (a % 2 == 0) {
             a /= 2;
             result += 2;
         }
-        for (int i = 3; a != 1; i += 2) {
+        for (long i = 3; a != 1; i += 2) {
             while (a % i == 0) {
                 result += i;
                 a /= i;
@@ -1033,7 +1037,7 @@ public class DysfunctionsScript : MonoBehaviour {
             b /= 2;
             result += 2;
         }
-        for (int i = 3; b != 1; i += 2) {
+        for (long i = 3; b != 1; i += 2) {
             while (b % i == 0) {
                 result += i;
                 b /= i;
@@ -1042,13 +1046,13 @@ public class DysfunctionsScript : MonoBehaviour {
         return (encode(result));
     }
     public static int[] fun45(int[] num1, int[] num2){
-        return (encode((int)(Math.Abs((int)decode(num1)-(int)decode(num2))/2)));
+        return (encode(Math.Abs(decode(num1)-decode(num2))/2));
     }
     public static int[] fun50(int[] num1, int[] num2){
-        int[] array1 = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-        int a = (int)decode(num1);
-        int[] array2 = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-        int b = (int)decode(num2);
+        int[] array1 = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+        long a = decode(num1);
+        int[] array2 = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+        long b = decode(num2);
         while(true){
             if(a <= 0){
                 break;
@@ -1123,32 +1127,32 @@ public class DysfunctionsScript : MonoBehaviour {
         return encode(result);
     }
     public static int[] fun53(int[] num1, int[] num2){
-        int[] array1 = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-        int a = (int)decode(num1);
-        int[] array2 = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-        int b = (int)decode(num2);
+        int[] array1 = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+        long a = decode(num1);
+        int[] array2 = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+        long b = decode(num2);
         int n = 0;
         while(true){
             if(a <= 0){
                 break;
             }
             n=0;
-            while((int)Math.Pow(2, n+1)<=a){
+            while((long)Math.Pow(2, n+1)<=a){
                 n++;
             }
             array1[n] = array1[n]+1;
-            a = a-(int)Math.Pow(2, n);
+            a = a-(long)Math.Pow(2, n);
         }
         while(true){
             if(b <= 0){
                 break;
             }
             n=0;
-            while((int)Math.Pow(2, n+1)<=b){
+            while((long)Math.Pow(2, n+1)<=b){
                 n++;
             }
             array2[n] = array2[n]+1;
-            b = b-(int)Math.Pow(2, n);
+            b = b-(long)Math.Pow(2, n);
         }
         n = usefullen(array1);
         int o = usefullen(array2);
@@ -1171,8 +1175,8 @@ public class DysfunctionsScript : MonoBehaviour {
         return(fun52(base36(num1), base36(num2)));
     }
     public static int[] fun55(int[] num1, int[] num2){
-        int a = (int)decode(num1)%35;
-        int b = (int)decode(num2)%35;
+        int a = (int)((decode(num1))%35);
+        int b = (int)((decode(num2))%35);
         if (a == 0){
             a = 35;
         }
