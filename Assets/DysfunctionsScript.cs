@@ -374,7 +374,7 @@ public class DysfunctionsScript : MonoBehaviour {
         stop = true;
         yield return new WaitForSeconds(2);
         bool leave = true;
-        int answer = (int)(decode(funSorting(current, ans1, ans2)))+36*meta+current;
+        int answer = finalCalculations(ans1, ans2, meta, current);
         int[] logging = encode(answer);
         //unityengine.debug.Log("The final answer is: " + logging[9]+logging[8]+logging[7]+logging[6]+logging[5]+logging[4]+logging[3]+logging[2]+logging[1]+logging[0]);
         Debug.LogFormat("[Dysfunctions #{0}] The final answer is: {1}{2}{3}{4}{5}{6}{7}{8}{9}{10}",moduleID,logging[9],logging[8],logging[7],logging[6],logging[5],logging[4],logging[3],logging[2],logging[1],logging[0]);
@@ -473,6 +473,7 @@ public class DysfunctionsScript : MonoBehaviour {
             startingDisplay[1].text = "G";
             yield return new WaitForSeconds(0.5f);
             startingDisplay[1].text = "GG";
+            yield return "solve";
             moduleSolved = true;
             foreach(TextMesh text in buttonDisplays){
                 text.color = fontColor[3];
@@ -526,6 +527,11 @@ public class DysfunctionsScript : MonoBehaviour {
             Start();
         }
     }
+
+    public static int finalCalculations(int[] num1, int[] num2, int meta, int current){
+        return (int)((decode(funSorting(current, num1, num2)))+36*meta+current);
+    }
+
     public static int[] updateArray(int[] arr, int novel){
         for(int n = arr.Length-1; n > 0; n--){
             arr[n]= arr[n-1];
@@ -1302,6 +1308,11 @@ public class DysfunctionsScript : MonoBehaviour {
                 yield return new WaitForSeconds(.1f);
             }
             buttons[7].OnInteract();
+            if ((int)(decode(submission)) == finalCalculations(ans1, ans2, meta, current)){
+                yield return "solve";
+            } else {
+                yield return "strike";
+            }
             yield break;
         }
         if(Commands[0] == "Q" || Commands[0] == "QUERY"){
