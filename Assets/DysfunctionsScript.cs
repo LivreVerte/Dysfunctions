@@ -42,10 +42,12 @@ public class DysfunctionsScript : MonoBehaviour {
     private int[] ans1 = {0, 0, 0, 0};
     private int[] ans2 = {0, 0, 0, 0};
     private bool stop = false;
+    private String[] Souv = new String[2];
 
 	public KMSelectable[] buttons;
 
 	void Start () {
+        Debug.LogFormat("[Dysfunctions #{0}] Commencing Version: 2.0.0",moduleID);
         for(int i = 0; i <=2; i++){
             queryDisplays[i].text = "";
         }
@@ -72,9 +74,11 @@ public class DysfunctionsScript : MonoBehaviour {
             queryDisplays[i].text = "";
         }
 		for(int i = usefullen(ans1); i>=0; i--){
+            Souv[0] = Souv[0] + ans1[i];
 			startingDisplay[0].text = startingDisplay[0].text + ans1[i];
 		}
         for(int i = usefullen(ans2); i>=0; i--){
+            Souv[1] = Souv[1] + ans2[i];
 			startingDisplay[2].text = startingDisplay[2].text + ans2[i];
 		}
         sign = UnityEngine.Random.Range(0,2);
@@ -101,9 +105,9 @@ public class DysfunctionsScript : MonoBehaviour {
         //UnityEngine.Debug.Log("Current: " + ((int)(current/6))+(current%6));
         Debug.LogFormat("[Dysfunctions #{0}] Starting function: {1}{2}. ",moduleID,((int)(current/6)),current%6);
         //UnityEngine.Debug.Log("The first factor is " + ans1[3]+ans1[2]+ans1[1]+ans1[0]);
-        Debug.LogFormat("[Dysfunctions #{0}] The first factor is {1}{2}{3}{4}. ",moduleID,ans1[3],ans1[2],ans1[1],ans1[0]);
+        Debug.LogFormat("[Dysfunctions #{0}] The first factor is {1}. ",moduleID,Souv[0]);
         //UnityEngine.Debug.Log("The second factor is " + ans2[3]+ans2[2]+ans2[1]+ans2[0]);
-        Debug.LogFormat("[Dysfunctions #{0}] The second factor is {1}{2}{3}{4}. ",moduleID,ans2[3],ans2[2],ans2[1],ans2[0]);
+        Debug.LogFormat("[Dysfunctions #{0}] The second factor is {1}. ",moduleID,Souv[1]);
 		initialized = true;
 		}
 	}
@@ -670,7 +674,16 @@ public class DysfunctionsScript : MonoBehaviour {
         return encode((int)decode(num1)^(int)decode(num2));
     }
     public static int[] fun04(int[] num1, int[] num2){
-        return encode((int)Math.Sqrt(((int)(Math.Pow(decode(num1), 2))+(int)(Math.Pow(decode(num2), 2)))));
+        int[] beaver = {1, 0, 3, 2, 5, 4};
+        int len1 = usefullen(num1);
+        int len2 = usefullen(num2);
+        for(int n = 0; n<=len1; n++){
+            num1[n] = beaver[num1[n]];
+        }
+        for(int n = 0; n<=len2; n++){
+            num2[n] = beaver[num2[n]];
+        }
+        return encode(decode(num1) + decode(num2));
     }
     public static int[] fun05(int[] num1, int[] num2){
         return encode((int)decode(num1)+(int)decode(num2));
@@ -726,20 +739,16 @@ public class DysfunctionsScript : MonoBehaviour {
         return encode(Math.Abs(decode(high)-decode(low)));
     }
     public static int[] fun12(int[] num1, int[] num2){
-        int result = (int)(decode(num1)%60466176)+(int)decode(num2);
-        int[] array = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-        while(true){
-            if(result <= 0){
-                break;
-            }
-            int n=0;
-            while((int)Math.Pow(5, n+1)<=result){
-                n++;
-            }
-            array[n] = array[n]+1;
-            result = result-(int)Math.Pow(5, n);
+        int[] flip = {3, 4, 5, 0, 1, 2};
+        int len1 = usefullen(num1);
+        int len2 = usefullen(num2);
+        for(int n = 0; n<=len1; n++){
+            num1[n] = flip[num1[n]];
         }
-        return array;
+        for(int n = 0; n<=len2; n++){
+            num2[n] = flip[num2[n]];
+        }
+        return encode(decode(num1) + decode(num2));
     }
     public static int[] fun13(int[] num1, int[] num2){
         return encode(decode(num1)*decode(num2));
@@ -779,7 +788,7 @@ public class DysfunctionsScript : MonoBehaviour {
         return output;
     }
     public static int[] fun20(int[] num1, int[] num2){
-        return encode((int)Math.Abs((int)Math.Pow((int)decode(num1)%216, 3)-(int)Math.Pow((int)decode(num2)%216,3) ));
+        return encode((int)Math.Pow((int)(Math.Abs(decode(num1)-decode(num2))%216), 3));
     }
     public static int[] fun21(int[] num1, int[] num2){
         int a = (int)decode(num1)%18;
@@ -930,7 +939,8 @@ public class DysfunctionsScript : MonoBehaviour {
     public static int[] fun32(int[] num1, int[] num2){
         double a = decode(num1);
         double b = decode(num2);
-        return encode(((long)(Math.Abs(a*(a+1)/2-b*(b+1)/2))));
+        double c = Math.Abs(a-b);
+        return encode(((long)(Math.Abs(c*(c+1)/2))));
     }
     public static int[] fun33(int[] num1, int[] num2){
         int a = (int)decode(num1);
@@ -969,28 +979,19 @@ public class DysfunctionsScript : MonoBehaviour {
         return (encode((int)Math.Abs(2*b-a)));
     }
     public static int[] fun40(int[] num1, int[] num2){
-        int a = (int)decode(num1);
-        int b = (int)decode(num2);
-        int c = (a+b)%5;
-        if (c == 0){
-            c = 5;
-        }
-        if (a+b == 0){
-            c = 0;
-        }
-        return (encode (c));
+        return encode((int)decode(num1)&(int)decode(num2));
     }
     public static int[] fun41(int[] num1, int[] num2){
-        float a = (int)decode(num1);
-        float b = (int)decode(num2);
-        if(a == 0){
-            a = 1;
+        int[] flip = {5, 4, 3, 2, 1, 0};
+        int len1 = usefullen(num1);
+        int len2 = usefullen(num2);
+        for(int n = 0; n<=len1; n++){
+            num1[n] = flip[num1[n]];
         }
-        if(b == 0){
-            b = 1;
+        for(int n = 0; n<=len2; n++){
+            num2[n] = flip[num2[n]];
         }
-        float c = 1/((1/a)+(1/b));
-        return encode((int)c);
+        return encode(Math.Abs(decode(num1) - decode(num2)));
     }
     public static int[] fun42(int[] num1, int[] num2){
         long a = decode(num1);
@@ -1055,46 +1056,14 @@ public class DysfunctionsScript : MonoBehaviour {
         return (encode((int)Math.Abs(decode(num1)-decode(num2))/2));
     }
     public static int[] fun50(int[] num1, int[] num2){
-        int[] array1 = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
         long a = decode(num1);
-        int[] array2 = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
         long b = decode(num2);
-        while(true){
-            if(a <= 0){
-                break;
-            }
-            int n=0;
-            while((int)Math.Pow(3, n+1)<=a){
-                n++;
-            }
-            array1[n] = array1[n]+1;
-            a = a-(int)Math.Pow(3, n);
-        }
-        while(true){
-            if(b <= 0){
-                break;
-            }
-            int n=0;
-            while((int)Math.Pow(3, n+1)<=b){
-                n++;
-            }
-            array2[n] = array2[n]+1;
-            b = b-(int)Math.Pow(3, n);
-        }
-        int p = usefullen(array1);
-        int o = usefullen(array2);
-        int result = 0;
-        while (p >= 0){
-            if(array1[p] == 2){
-                result++;
-            }
-            p--;
-        }
-        while (o >= 0){
-            if(array2[o] == 2){
-                result++;
-            }
-            o--;
+        long c = a+b;
+        long result;
+        if(c % 2 == 0){
+            result = c/2;
+        } else {
+            result = 3*c + 1;
         }
         return encode(result);
     }
@@ -1133,52 +1102,14 @@ public class DysfunctionsScript : MonoBehaviour {
         return encode(result);
     }
     public static int[] fun53(int[] num1, int[] num2){
-        int[] array1 = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-        long a = decode(num1);
-        int[] array2 = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-        long b = decode(num2);
-        int n = 0;
-        while(true){
-            if(a <= 0){
-                break;
-            }
-            n=0;
-            while((long)Math.Pow(2, n+1)<=a){
-                n++;
-            }
-            array1[n] = array1[n]+1;
-            a = a-(long)Math.Pow(2, n);
-        }
-        while(true){
-            if(b <= 0){
-                break;
-            }
-            n=0;
-            while((long)Math.Pow(2, n+1)<=b){
-                n++;
-            }
-            array2[n] = array2[n]+1;
-            b = b-(long)Math.Pow(2, n);
-        }
-        n = usefullen(array1);
-        int o = usefullen(array2);
         int result = 0;
-        while (n >= 0){
-            if(array1[n] == 0){
-                result++;
-            }
-            n--;
-        }
-        while (o >= 0){
-            if(array2[o] == 0){
-                result++;
-            }
-            o--;
+        for(int i = 0; i <= 4; i++){
+            result += num1[i] * num2[i];
         }
         return encode(result);
     }
     public static int[] fun54(int[] num1, int[] num2){
-        return(fun52(base36(num1), base36(num2)));
+        return encode((int)decode(num1)|(int)decode(num2));
     }
     public static int[] fun55(int[] num1, int[] num2){
         int a = (int)((decode(num1))%35);
@@ -1341,4 +1272,152 @@ public class DysfunctionsScript : MonoBehaviour {
         }
         buttons[7].OnInteract();
     }
+
+    /* This is where I put the Legacy Functions for now. They were in the original version, but I decided that they either took to long to compute without TFC, or didn't go with the original vision. 
+    public static int[] fun20(int[] num1, int[] num2){
+        return encode((int)Math.Abs((int)Math.Pow((int)decode(num1)%216, 3)-(int)Math.Pow((int)decode(num2)%216,3) ));
+    } //This got changed because while I think calculating the cube of a number in base 6 is fine, doing it twice is unecessary. The new version only makes you cube 1 number. 
+    public static int[] fun32(int[] num1, int[] num2){
+        double a = decode(num1);
+        double b = decode(num2);
+        return encode(((long)(Math.Abs(a*(a+1)/2-b*(b+1)/2))));
+    } //Similar to legacy function 20. I decided that it would be doable to compute one triangular number, but doing two was unecessarily difficult. 
+    public static int[] fun40(int[] num1, int[] num2){
+        int a = (int)decode(num1);
+        int b = (int)decode(num2);
+        int c = (a+b)%5;
+        if (c == 0){
+            c = 5;
+        }
+        if (a+b == 0){
+            c = 0;
+        }
+        return (encode (c));
+    } //This is here for a slightly different reason, because it is too similar to the other digital root function. I kept it in because it was *technically* possible to disambiguate them, but if I am already changing the functions, I might as well take out this one as well. 
+    public static int[] fun04(int[] num1, int[] num2){
+        return encode((int)Math.Sqrt(((int)(Math.Pow(decode(num1), 2))+(int)(Math.Pow(decode(num2), 2)))));
+    } // This is here because while the squares are fine, the square root is annoying to take without a calculator. 
+    public static int[] fun54(int[] num1, int[] num2){
+        return(fun52(base36(num1), base36(num2)));
+    } // A poorly worded function that was incredibly redundant. Need I say more?
+    public static int[] fun50(int[] num1, int[] num2){
+        int[] array1 = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+        long a = decode(num1);
+        int[] array2 = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+        long b = decode(num2);
+        while(true){
+            if(a <= 0){
+                break;
+            }
+            int n=0;
+            while((int)Math.Pow(3, n+1)<=a){
+                n++;
+            }
+            array1[n] = array1[n]+1;
+            a = a-(int)Math.Pow(3, n);
+        }
+        while(true){
+            if(b <= 0){
+                break;
+            }
+            int n=0;
+            while((int)Math.Pow(3, n+1)<=b){
+                n++;
+            }
+            array2[n] = array2[n]+1;
+            b = b-(int)Math.Pow(3, n);
+        }
+        int p = usefullen(array1);
+        int o = usefullen(array2);
+        int result = 0;
+        while (p >= 0){
+            if(array1[p] == 2){
+                result++;
+            }
+            p--;
+        }
+        while (o >= 0){
+            if(array2[o] == 2){
+                result++;
+            }
+            o--;
+        }
+        return encode(result);
+    } //This one is a bit stranger, so let me explain: It is not that hard to do, let me say that right now. This is here because it doesn't fit with the purpose of the module that well. I think that it is cool that so many functions do not need any base conversions, and one of my new goals is to make all of the functions doable without even touching a base converter. Even with the bitwise ones, it is fine to do it without touching a base converter, just by converting the base-6 number into binary, not an onerous task. An extra conversion, in my view, defeats that point. 
+    //I think that a big portion of this module's identity now is base-6, and at this point I think that most functions that require another base conversion, with the sole exception of the bitwise operations, defeats that identity. If you are going to be using the converter anyways, why not convert it into base 10, and then do all the math that way. That is why several functions are retired even if they are not inherently difficult. 
+    public static int[] fun53(int[] num1, int[] num2){
+        int[] array1 = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+        long a = decode(num1);
+        int[] array2 = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+        long b = decode(num2);
+        int n = 0;
+        while(true){
+            if(a <= 0){
+                break;
+            }
+            n=0;
+            while((long)Math.Pow(2, n+1)<=a){
+                n++;
+            }
+            array1[n] = array1[n]+1;
+            a = a-(long)Math.Pow(2, n);
+        }
+        while(true){
+            if(b <= 0){
+                break;
+            }
+            n=0;
+            while((long)Math.Pow(2, n+1)<=b){
+                n++;
+            }
+            array2[n] = array2[n]+1;
+            b = b-(long)Math.Pow(2, n);
+        }
+        n = usefullen(array1);
+        int o = usefullen(array2);
+        int result = 0;
+        while (n >= 0){
+            if(array1[n] == 0){
+                result++;
+            }
+            n--;
+        }
+        while (o >= 0){
+            if(array2[o] == 0){
+                result++;
+            }
+            o--;
+        }
+        return encode(result);
+    } //See above. 
+    public static int[] fun12(int[] num1, int[] num2){
+        int result = (int)(decode(num1)%60466176)+(int)decode(num2);
+        int[] array = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+        while(true){
+            if(result <= 0){
+                break;
+            }
+            int n=0;
+            while((int)Math.Pow(5, n+1)<=result){
+                n++;
+            }
+            array[n] = array[n]+1;
+            result = result-(int)Math.Pow(5, n);
+        }
+        return array;
+    } //See above, and I will say this is easily the most egregious example I wanted to get rid of. 
+    public static int[] fun41(int[] num1, int[] num2){
+        float a = (int)decode(num1);
+        float b = (int)decode(num2);
+        if(a == 0){
+            a = 1;
+        }
+        if(b == 0){
+            b = 1;
+        }
+        float c = 1/((1/a)+(1/b));
+        return encode((int)c);
+    } // Calculating decimals, and taking the inverse of that. Cool idea, fails miserably in application. 
+    */
+
 }
