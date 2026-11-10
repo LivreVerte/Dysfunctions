@@ -47,12 +47,12 @@ public class DysfunctionsScript : MonoBehaviour {
 	public KMSelectable[] buttons;
 
 	void Start () {
-        Debug.LogFormat("[Dysfunctions #{0}] Commencing Version: 2.0.0",moduleID);
         for(int i = 0; i <=2; i++){
             queryDisplays[i].text = "";
         }
 		if(!initialized){
             moduleID = moduleIdCounter++;
+            Debug.LogFormat("[Dysfunctions #{0}] Commencing Version: 2.0.1",moduleID);
 		restriction = UnityEngine.Random.Range(2,36);
         arguement = UnityEngine.Random.Range(0, 2);
         current = UnityEngine.Random.Range(0, 36);
@@ -334,6 +334,10 @@ public class DysfunctionsScript : MonoBehaviour {
                 queryDisplays[0].text = startingDisplay[0].text;
                 queryDisplays[1].text = startingDisplay[2].text;
                 queryDisplays[2].text = "";
+                int answer = finalCalculations(ans1, ans2, meta, current);
+                int[] logging = encode(answer);
+                //unityengine.debug.Log("The final answer is: " + logging[9]+logging[8]+logging[7]+logging[6]+logging[5]+logging[4]+logging[3]+logging[2]+logging[1]+logging[0]);
+                Debug.LogFormat("[Dysfunctions #{0}] The final answer is: {1}{2}{3}{4}{5}{6}{7}{8}{9}{10}",moduleID,logging[9],logging[8],logging[7],logging[6],logging[5],logging[4],logging[3],logging[2],logging[1],logging[0]);
                 arg = 3;
             } else if(arg == 3){
                 GetComponent<KMAudio>().PlaySoundAtTransform("DysSus", transform);
@@ -379,9 +383,6 @@ public class DysfunctionsScript : MonoBehaviour {
         yield return new WaitForSeconds(2);
         bool leave = true;
         int answer = finalCalculations(ans1, ans2, meta, current);
-        int[] logging = encode(answer);
-        //unityengine.debug.Log("The final answer is: " + logging[9]+logging[8]+logging[7]+logging[6]+logging[5]+logging[4]+logging[3]+logging[2]+logging[1]+logging[0]);
-        Debug.LogFormat("[Dysfunctions #{0}] The final answer is: {1}{2}{3}{4}{5}{6}{7}{8}{9}{10}",moduleID,logging[9],logging[8],logging[7],logging[6],logging[5],logging[4],logging[3],logging[2],logging[1],logging[0]);
         //UnityEngine.Debug.Log("You Submitted: " + submission[9]+ submission[8]+ submission[7]+ submission[6]+ submission[5]+ submission[4]+ submission[3]+ submission[2]+ submission[1]+ submission[0]);
         Debug.LogFormat("[Dysfunctions #{0}] Your answer is: {1}{2}{3}{4}{5}{6}{7}{8}{9}{10}",moduleID,submission[9],submission[8],submission[7],submission[6],submission[5],submission[4],submission[3],submission[2],submission[1],submission[0]);
         if((int)(decode(submission)) == answer){
@@ -533,6 +534,7 @@ public class DysfunctionsScript : MonoBehaviour {
     }
 
     public static int finalCalculations(int[] num1, int[] num2, int meta, int current){
+        Debug.Log((int)((decode(funSorting(current, num1, num2)))+36*meta+current));
         return (int)((decode(funSorting(current, num1, num2)))+36*meta+current);
     }
 
@@ -1262,10 +1264,11 @@ public class DysfunctionsScript : MonoBehaviour {
     IEnumerator TwitchHandleForcedSolve () { //Note: The way that this solver works is that it disables the restrictions to submit. 
         yield return null;
         reston = false;
-        buttons[7].OnInteract();
+        if (arg != 3) buttons[7].OnInteract();
         yield return new WaitForSeconds(.1f);
         int[] answer = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-        answer = encode((decode(funSorting(current, ans1, ans2)))+36*meta+current);
+        //Debug.Log(current);
+        answer = encode(finalCalculations(ans1, ans2, meta, current));
         for(int i = (answer.Length-1); i >= 0; i--){
             buttons[answer[i]].OnInteract();
             yield return new WaitForSeconds(.1f);
