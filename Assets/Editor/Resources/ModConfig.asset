@@ -21,7 +21,7 @@ MonoBehaviour:
     located in ktane.timwi.de or the manuals folder in your game. \nThis is a first
     module attempt, and while I am happy with where it is, I recognize that there
     will be bugs. Contact LivreVerte on Discord for concerns or bugs. "
-  version: 2.0.0
+  version: 2.0.1
   outputFolder: build
   debugBuild: 1
   previewImage: {fileID: 2800000, guid: ef61e3cd2050a214b9f0408f408790f4, type: 3}

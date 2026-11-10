@@ -52,7 +52,7 @@ public class DysfunctionsScript : MonoBehaviour {
         }
 		if(!initialized){
             moduleID = moduleIdCounter++;
-            Debug.LogFormat("[Dysfunctions #{0}] Commencing Version: 2.0.1",moduleID);
+            Debug.LogFormat("[Dysfunctions #{0}] Commencing Version: 2.0.2",moduleID);
 		restriction = UnityEngine.Random.Range(2,36);
         arguement = UnityEngine.Random.Range(0, 2);
         current = UnityEngine.Random.Range(0, 36);
@@ -279,6 +279,12 @@ public class DysfunctionsScript : MonoBehaviour {
                     num12 = (num12+1)%3;
                 }
             reston = true;
+
+            if((ans1[2] != num11*2 && ans1[2] != (num11*2+1))||(ans2[2] != num12*2 && ans2[2] != (num12*2+1))||(rest1 == ((int)decode(ans1)%restriction == 0))||(rest2 == ((int)decode(ans2)%restriction ==0))){
+                Debug.LogFormat("[Dysfunctions #{0}] Submission can't be entered right now. ",moduleID);
+            } else {
+                Debug.LogFormat("[Dysfunctions #{0}] Submission can be entered now. ",moduleID);
+            }
             arg = 0;
             }
             display = false;
@@ -1274,6 +1280,15 @@ public class DysfunctionsScript : MonoBehaviour {
             yield return new WaitForSeconds(.1f);
         }
         buttons[7].OnInteract();
+        int r = 0;
+        while(!moduleSolved){
+            yield return new WaitForSeconds(.05f);
+            if(r >= 400){
+                GetComponent<KMBombModule>().HandlePass();
+            }
+            r++;
+        }
+        GetComponent<KMBombModule>().HandlePass();
     }
 
     /* This is where I put the Legacy Functions for now. They were in the original version, but I decided that they either took to long to compute without TFC, or didn't go with the original vision. 
